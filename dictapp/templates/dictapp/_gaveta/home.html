@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nada aqui</title>
+</head>
+<body>
+    <h1>Seja Bem Vindo!</h1>
+    <p>Agora são: {{ now }}</p>
+    <br>
+    <br>
+    {% for transacao in transacoes %}
+        {{ transacao}}
+        <br>
+    {% endfor %}
+    <br>
+    <br>
+    <br>
+    <ul>
+    {% for transacao in transacoes %}
+        {% if transacao == 't1' %}
+            <li><b>{{transacao}}</b></li>
+        {% else %}
+            <li>{{transacao}}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</body>
+</html>

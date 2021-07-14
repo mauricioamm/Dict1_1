@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br"
+
+<html>
+<head>
+	<meta charset= "utf-8">
+	<title>Testando</title>
+	<link rel="stylesheet" href="{% static 'dictapp/css/style.css' %}">
+</head>
+<body>
+
+
+</body>
+	<div class="container">
+		<nav>
+			<ul class="menu">
+				<li>Cadastrar Participante</li>
+				<li>Executar Sessão</li>
+				<li>Configurar Sessão</li>
+				<li>Relatórios</li>	
+				<li>Sobre</li>			
+				<li>Sair</li>
+			</ul>
+			<br>
+			<br>
+				{% if objetinho.figura1 %}
+                    <img src="{{objetinho.figura1}}" width="250" height="200" ><br>
+                {% endif %}
+				<br>
+		</nav>
+		<section>
+			<h2>Frases em alemão, ou algo assim</h2>
+			<hr>
+			<br>
+			
+			<form method="post">
+				{% csrf_token %}
+			    {{ form.as_p }}
+    			<button type="submit"> Salvar </button>
+			</form>
+		</section>
+	</div>
+</html>

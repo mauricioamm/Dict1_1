@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br"
+
+<html>
+<head>
+	<meta charset= "utf-8">
+	<title>Testando</title>
+	<link rel="stylesheet" href="{% static 'dictapp/css/style.css' %}">
+</head>
+<body>
+
+
+</body>
+	<div class="container">
+		<nav>
+			<ul class="menu">
+				<li>Cadastrar Participante</li>
+				<li>Executar Sessão</li>
+				<li>Configurar Sessão</li>
+				<li>Relatórios</li>	
+				<li>Sobre</li>			
+				<li>Sair</li>
+			</ul>
+			<br>
+			<br>
+				{% if objetinho.figura1 %}
+                    <img src="{{objetinho.figura1}}" width="250" height="200" ><br>
+                {% endif %}
+				<br>
+		</nav>
+		<section>
+			<h2>Frases em alemão, ou algo assim</h2>
+			<hr>
+			<br>
+			
+			<form method="post">
+				{% csrf_token %}
+
+				<input type="submit" class="btn inserir" value="Novo" name="Novo">
+				<input type="submit" class="btn salvar" value="Salvar" name="Salvar">
+				<input type="submit" class="btn excluir" value="Excluir" name="Excluir">
+				<input type="submit" class="btn resposta" value="Resposta" name="Resposta">
+				<br>
+				<input type="submit" class="btn primeiro" value="<<" name="primeiro">
+				<input type="submit" class="btn anterior" value="<" name="anterior">
+				<input type="submit" class="btn proximo" value=">"  name="proximo">
+				<input type="submit" class="btn ultimo" value=">>" name="ultimo">
+				<input type="submit" class="btn listagem" value="Listagem" name="Listagem">
+				<br>
+				<br>
+				<!-- um opção: <audio controls autoplay> -->
+				<audio controls>
+					<source src="{{objetinho.som1}}" type="audio/mpeg">
+				</audio>
+				<br>
+				<br>
+				<div class="formulario">
+					<p style="font-family:Arial; color:Black; font-size: 15px;">
+						Palavra:<br><input type="text" name="palavra" class="campo" value="{{form.palavra.value}}" autofocus><br>
+						Tradução:<br><input type="hidden" name="palavratrad" class="campo" value ="{{form.palavratrad.value}}"> <br>
+						Frase:<br><input type="hidden" name="frase" class="campo" value="{{form.frase.value}}"><br>
+						Tradução da Frase:<br><input type="hidden" name="frasetrad" class="campo" value="{{form.frasetrad.value}}"><br>
+						Figura1:<br><input type="hidden" name="figura1" class="campo" value="{{form.figura1.value}}"><br>
+						Som1:<br><input type="hidden" name="som1" class="campo" value="{{form.som1.value}}"><br>
+					</p>
+				</div>
+				<br>
+			</form>
+		</section>
+	</div>
+</html>

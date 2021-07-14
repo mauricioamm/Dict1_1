@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Listagem</h2>
+    <ul>
+    {% for dictclass in lista %}
+        <li><a href="{% url 'url_principal' dictclass.id %}">  {{dictclass.id}} - {{dictclass.palavra}} - {{dictclass.palavratrad}} - {{dictclass.frase}}  - {{dictclass.frasetrad}}</a></li>
+    {% endfor %}
+    </ul>
+    <br>
+    <br>
+
+</body>
+</html>
