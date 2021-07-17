@@ -4,7 +4,7 @@ import os
 from django.shortcuts import render, redirect
 # from django.http import HttpResponse
 # from django.db import connection
-from next_prev import next_in_order, prev_in_order
+#from next_prev import next_in_order, prev_in_order
 from random import randint
 from .models import dictclass
 from .forms import DictForm, DictForm2
