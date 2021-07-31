@@ -7,13 +7,19 @@ from django.shortcuts import render, redirect
 #from next_prev import next_in_order, prev_in_order
 from random import randint
 from .models import dictclass
-from .forms import DictForm, DictForm2
+from .forms import DictForm, DictForm2, ImageForm
+from django.views.generic import TemplateView
+
 # from .forms import DictForm, TipoAudio
 # importei esse gtts agora... É só digitar e ele mesmo vai pedir pra instalar
 from gtts import gTTS
 import sqlite3
+from django.shortcuts import render
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+
 from django.db.models import Count
-import pyglet
+#import pyglet
 from time import sleep
 from django.http import HttpResponse
 from django.db import connection
@@ -22,6 +28,43 @@ import csv
 from django.contrib.auth.views import LogoutView
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
+
+class Home(TemplateView):
+    template_name = 'home.html'
+
+def sessao_upload(request, pk):
+    banquinho = 'db_ale'
+    objetinho = dictclass.objetos.using(banquinho).get(pk=pk)
+    #objetinho = EprogModel.objetos.get(pk=pk)
+    form = DictForm(request.POST or None, instance=objetinho)
+
+    if request.POST.get('Voltar'):
+        return redirect('url_principal_ale', pk=pk)
+
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            # Get the current instance object to display in the template
+            img_obj = form.instance
+            instance = form.save()
+            caminho = instance.image.name
+            caminho_mesmo = instance.image.path
+            print('o nome é: ', caminho)
+            print('o nome é: ', caminho_mesmo)
+            objetinho.figura1 = '/media/' + caminho
+            objetinho.save()
+            return render(request, 'dictapp/sessao_upload.html', {'form': form, 'objetinho': objetinho,'img_obj': img_obj})
+    else:
+        form = ImageForm()
+
+    context={
+        'form': form,
+        'objetinho': objetinho,
+    }
+
+    return render(request, 'dictapp/sessao_upload.html', context)
+
 
 def criar(request):
     data = {}
@@ -90,6 +133,21 @@ def Entrada_Iniciar(request):
         obj_primeiro = dictclass.objetos.using(banquinho).first()
         n_primeiro= obj_primeiro.id
         return redirect('url_principal_ing', pk=n_primeiro)
+
+    if request.POST.get('testar_uploader'):
+        banquinho = 'db_ale'
+        obj_primeiro = dictclass.objetos.using(banquinho).first()
+        n_primeiro= obj_primeiro.id
+        if request.method == 'POST' and request.FILES['myfile']:
+            myfile = request.FILES['myfile']
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            uploaded_file_url = fs.url(filename)
+            return render(request, 'core/simple_upload.html', {
+                'uploaded_file_url': uploaded_file_url
+            })
+        return render(request, 'core/simple_upload.html')
+        #return redirect('url_principal_ale', pk=n_primeiro)
 
 
     return render(request, "dictapp/Entrada_iniciar.html")
@@ -366,6 +424,10 @@ def principal_ale(request, pk):
 
     if request.POST.get('Sair'):
         return redirect('url_entrada')
+
+    if request.POST.get('Upload'):
+        # fazer o logout aqui:
+        return redirect('url_sessao_upload', pk=pk)
 
     if request.POST.get('Novo'):
         objeto_ultimo = dictclass.objetos.using(banquinho).last()

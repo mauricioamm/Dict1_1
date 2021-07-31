@@ -35,7 +35,11 @@ class DictForm2(forms.ModelForm):
         fields = ['suaresposta1']
         widgets = {'suaresposta1': forms.TextInput(attrs={'size': 70}),}
 
-
+class ImageForm(forms.ModelForm):
+    """Form for the image model"""
+    class Meta:
+        model = dictclass
+        fields = ('title', 'image')
 
 """
 class TipoAudio(forms.ModelForm):

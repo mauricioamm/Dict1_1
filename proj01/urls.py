@@ -1,5 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+from dictapp import views
 from dictapp.views import editar_ale, editar_ing, \
                             sessao_testar_ale, sessao_testar_ing,\
                             principal_ale, principal_ing,\
@@ -7,11 +10,14 @@ from dictapp.views import editar_ale, editar_ing, \
                             Entrada_sobre, Entrada,\
                             Entrada_configuracoes, Entrada_relatorios,\
                             sessao_testar_audio_ale, sessao_testar_port_ale, sessao_testar_figura_ale,\
-                            sessao_testar_audio_ing, sessao_testar_port_ing, sessao_testar_figura_ing
+                            sessao_testar_audio_ing, sessao_testar_port_ing, sessao_testar_figura_ing,\
+                            sessao_upload
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Entrada, name='url_entrada'),
+    path('', views.Home.as_view(), name='home'),
+    #path('upload', views.upload, name='upload'),
  
     path('Entrada_Iniciar/', Entrada_Iniciar, name='url_Entrada_Iniciar'),
     path('Entrada_login/', Entrada_login, name='url_Entrada_login'),
@@ -35,8 +41,12 @@ urlpatterns = [
     path('sessao_testar_port_ing/<int:pk>/', sessao_testar_port_ing, name='url_sessao_testar_port_ing'),
     path('sessao_testar_audio_ing/<int:pk>/', sessao_testar_audio_ing, name='url_sessao_testar_audio_ing'),
     path('sessao_testar_figura_ing/<int:pk>/', sessao_testar_figura_ing, name='url_sessao_testar_figura_ing'),
-
+    path('sessao_upload/<int:pk>/', sessao_upload, name='url_sessao_upload'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 """
     path('', entrada, name='url_entrada'),

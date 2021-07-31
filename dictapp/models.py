@@ -2,7 +2,6 @@ from django.db import models
 
 #from django.conf import settings
 
-
 class dictclass(models.Model):
     id =            models.AutoField(primary_key=True)
     Ordem = models.CharField(max_length=3, blank=True, default='')
@@ -19,6 +18,8 @@ class dictclass(models.Model):
     suaresposta1 =   models.TextField(max_length=1000, blank=True, default='')
     suaresposta2 =   models.TextField(max_length=1000, blank=True, default='')
     suaresposta3 =   models.TextField(max_length=1000, blank=True, default='')
+    title =         models.CharField(max_length=200, blank=True, default='')
+    image =         models.ImageField(upload_to='images')
 
     def __str__(self):
         return self.palavra + ' ' + self.frase
